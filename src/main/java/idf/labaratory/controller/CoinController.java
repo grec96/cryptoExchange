@@ -50,7 +50,7 @@ public class CoinController {
         return ResponseEntity.ok(coinPrice);
     }
 
-    @PostMapping(path = "addNotification/", consumes = MediaType.ALL_VALUE)
+    @PostMapping(path = "/addNotification", consumes = MediaType.ALL_VALUE)
     @Operation(description = "Added notification")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Notify> addNotification(
