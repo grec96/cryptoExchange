@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CoinPriceRepository extends JpaRepository<CoinPrice, Long> {
 
-    CoinPrice getFirstByCoinSymbolOrderByIdDesc(String coinSymbol);
+    CoinPrice findFirstByCoinSymbolOrderByIdDesc(String coinSymbol);
 }

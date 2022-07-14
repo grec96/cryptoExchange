@@ -14,6 +14,6 @@ public class CoinPriceServiceImpl implements CoinPriceService {
     }
 
     public CoinPrice getCoinPrice(String symbol) {
-        return coinPriceRepository.getFirstByCoinSymbolOrderByIdDesc(symbol);
+        return coinPriceRepository.findFirstByCoinSymbolOrderByIdDesc(symbol);
     }
 }

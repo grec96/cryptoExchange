@@ -18,7 +18,7 @@ public class NotifyServiceImpl implements NotifyService {
 
     @Override
     public Notify addNotificaion(String userName, String symbol) {
-        CoinPrice coinPrice = coinPriceRepository.getFirstByCoinSymbolOrderByIdDesc(symbol);
+        CoinPrice coinPrice = coinPriceRepository.findFirstByCoinSymbolOrderByIdDesc(symbol);
 
         Notify notify = new Notify(userName, coinPrice.getCoin(), coinPrice.getPrice());
         return notifyRepository.save(notify);

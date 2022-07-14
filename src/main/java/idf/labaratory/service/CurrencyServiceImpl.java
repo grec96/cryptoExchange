@@ -25,7 +25,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     private final CoinPriceRepository coinPriceRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
     private static final Logger LOGGER = LoggerFactory.getLogger(CurrencyServiceImpl.class);
-    private final String message = "Price %s not received";
+    private static final String MESSAGE = "Price %s not received";
 
 
     public CurrencyServiceImpl(CoinRepository coinRepository, CoinPriceRepository coinPriceRepository, ApplicationEventPublisher applicationEventPublisher) {
@@ -44,15 +44,17 @@ public class CurrencyServiceImpl implements CurrencyService {
                 .forEach(coin -> {
                     String urlWithParam = url + "?id=" + coin.getId();
                     try {
-                        Ticker[] ticker = restTemplate.getForObject(urlWithParam, Ticker[].class);
+                        Ticker[] tickerArray = restTemplate.getForObject(urlWithParam, Ticker[].class);
+                        if( tickerArray.length > 0) {
+                            Ticker ticker = tickerArray[0];
+                            NotifyEvent notifyEvent = new NotifyEvent(this, Double.parseDouble(ticker.getPrice_usd()), coin.getSymbol());
+                            applicationEventPublisher.publishEvent(notifyEvent);
 
-                        NotifyEvent notifyEvent = new NotifyEvent(this, Double.parseDouble(ticker[0].getPrice_usd()), coin.getSymbol());
-                        applicationEventPublisher.publishEvent(notifyEvent);
-
-                        CoinPrice coinPrice = new CoinPrice(coin, Double.parseDouble(ticker[0].getPrice_usd()));
-                        coinPriceRepository.save(coinPrice);
+                            CoinPrice coinPrice = new CoinPrice(coin, Double.parseDouble(ticker.getPrice_usd()));
+                            coinPriceRepository.save(coinPrice);
+                        }
                     } catch (Exception e) {
-                        LOGGER.warn(String.format(message, coin.getSymbol()));
+                        LOGGER.warn(String.format(MESSAGE, coin.getSymbol()));
                     }
 
                 });

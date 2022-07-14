@@ -4,10 +4,7 @@ package idf.labaratory.controller;
 import idf.labaratory.entity.Coin;
 import idf.labaratory.entity.CoinPrice;
 import idf.labaratory.entity.Notify;
-import idf.labaratory.service.CoinPriceService;
-import idf.labaratory.service.CoinPriceServiceImpl;
-import idf.labaratory.service.CoinServiceImpl;
-import idf.labaratory.service.NotifyService;
+import idf.labaratory.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -29,11 +26,11 @@ import java.util.List;
 })
 public class CoinController {
 
-    private final CoinServiceImpl coinService;
+    private final CoinService coinService;
     private final CoinPriceService coinPriceService;
     private final NotifyService notifyService;
 
-    public CoinController(CoinServiceImpl coinService, CoinPriceService coinPriceService, NotifyService notifyService) {
+    public CoinController(CoinService coinService, CoinPriceService coinPriceService, NotifyService notifyService) {
         this.coinService = coinService;
         this.coinPriceService = coinPriceService;
         this.notifyService = notifyService;
